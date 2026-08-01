@@ -97,8 +97,8 @@
     background:radial-gradient(circle 340px at var(--mx) var(--my), rgba(193,127,62,0.1), transparent 70%);
   }
 
-  .wrap{ position:relative; z-index:1; max-width:1000px; margin:0 auto; padding:6rem 2rem; }
-  @media (max-width:768px){ .wrap{ padding:4rem 1.5rem; } }
+  .wrap{ position:relative; z-index:1; max-width:1000px; margin:0 auto; padding:3.5rem 2rem; }
+  @media (max-width:768px){ .wrap{ padding:2.5rem 1.5rem; } }
 
   .hairline-top{ border-top:1px solid var(--line); }
   .band--ink.hairline-top{ border-top:1px solid var(--line-dark); }
@@ -152,8 +152,8 @@
   }
 
   /* ===== hero ===== */
-  .hero-grid{ display:grid; grid-template-columns:1.15fr 0.85fr; gap:3rem; align-items:center; padding-top:5rem; }
-  @media (max-width:860px){ .hero-grid{ grid-template-columns:1fr; padding-top:3rem; } }
+  .hero-grid{ display:grid; grid-template-columns:1.15fr 0.85fr; gap:3rem; align-items:start; padding-top:1.5rem; }
+  @media (max-width:860px){ .hero-grid{ grid-template-columns:1fr; padding-top:1rem; } }
 
   .hero-copy .eyebrow{ display:block; margin-bottom:1.1rem; }
   .hero-copy h1{ margin-bottom:1.3rem; }
@@ -233,7 +233,6 @@
   #bpCapabilities.is-active .bp-lock, #bpCapabilities:hover .bp-lock{ stroke:var(--brass-deep); stroke-width:2.3; }
   #bpCapabilities.is-active .bp-glow, #bpCapabilities:hover .bp-glow{ opacity:0.32; }
   #bpCapabilities{ cursor:pointer; }
-  #heroFigure:hover .bp-glow{ opacity:0.2; }
 
   .bp-callouts{ opacity:0; animation:fadeIn 0.8s var(--ease) 2.1s forwards; }
   .bp-callout{ cursor:pointer; }
@@ -256,7 +255,6 @@
 
   /* ===== data packets travelling the syscall gate ===== */
   .bp-packet{ fill:var(--brass); opacity:0.85; filter:drop-shadow(0 0 1.5px rgba(193,127,62,0.6)); }
-  #heroFigure:hover .bp-packet{ filter:drop-shadow(0 0 4px rgba(193,127,62,0.85)); }
 
   /* ===== radar sweep overlay, arms on hover ===== */
   .fig-scan{
@@ -264,7 +262,6 @@
     background:conic-gradient(from 0deg, transparent 0deg, rgba(193,127,62,0.4) 14deg, transparent 46deg);
     opacity:0; transition:opacity 0.45s var(--ease); mix-blend-mode:multiply;
   }
-  #heroFigure:hover .fig-scan{ opacity:1; animation:scanRotate 2.6s linear infinite; }
   @keyframes scanRotate{ to{ transform:rotate(360deg); } }
   html.reduced-motion .fig-scan{ display:none; }
 
