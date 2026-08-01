@@ -41,8 +41,8 @@
     font-size:17px;
   }
 
-  h1,h2,h3{ font-family:var(--display); font-weight:600; line-height:1.15; letter-spacing:-0.01em; }
-  h1{ font-size:clamp(2.4rem,6vw,4.2rem); }
+  h1,h2,h3{ font-family:var(--display); font-weight:600; line-height:1.1; letter-spacing:-0.01em; }
+  h1{ font-size:clamp(1.8rem,4vw,2.8rem); }
   h2{ font-size:clamp(1.7rem,4.2vw,2.3rem); }
   h3{ font-size:1.15rem; font-weight:600; }
   a{ color:inherit; }
@@ -97,8 +97,8 @@
     background:radial-gradient(circle 340px at var(--mx) var(--my), rgba(193,127,62,0.1), transparent 70%);
   }
 
-  .wrap{ position:relative; z-index:1; max-width:1000px; margin:0 auto; padding:3.5rem 2rem; }
-  @media (max-width:768px){ .wrap{ padding:2.5rem 1.5rem; } }
+  .wrap{ position:relative; z-index:1; max-width:1000px; margin:0 auto; padding:2rem 2rem; }
+  @media (max-width:768px){ .wrap{ padding:2rem 1.5rem; } }
 
   .hairline-top{ border-top:1px solid var(--line); }
   .band--ink.hairline-top{ border-top:1px solid var(--line-dark); }
@@ -152,14 +152,14 @@
   }
 
   /* ===== hero ===== */
-  .hero-grid{ display:grid; grid-template-columns:1.15fr 0.85fr; gap:3rem; align-items:start; padding-top:1.5rem; }
-  @media (max-width:860px){ .hero-grid{ grid-template-columns:1fr; padding-top:1rem; } }
+  .hero-grid{ display:grid; grid-template-columns:1.15fr 0.85fr; gap:3rem; align-items:start; padding-top:5rem; }
+  @media (max-width:860px){ .hero-grid{ grid-template-columns:1fr; padding-top:4rem; } }
 
-  .hero-copy .eyebrow{ display:block; margin-bottom:1.1rem; }
-  .hero-copy h1{ margin-bottom:1.3rem; }
+  .hero-copy .eyebrow{ display:block; margin-bottom:0.9rem; }
+  .hero-copy h1{ margin-bottom:1rem; }
   .hero-copy h1 span{ display:block; }
-  .hero-sub{ font-size:1.12rem; color:var(--slate); max-width:520px; margin-bottom:0.6rem; }
-  .hero-now{ font-family:var(--mono); font-size:0.78rem; color:var(--brass-deep); margin-bottom:2rem; display:inline-block; }
+  .hero-sub{ font-size:1.08rem; color:var(--slate); max-width:520px; margin-bottom:0.8rem; }
+  .hero-now{ font-family:var(--mono); font-size:0.78rem; color:var(--brass-deep); margin-bottom:1.8rem; display:inline-block; }
 
   .hero-links{ display:flex; flex-wrap:wrap; gap:1.6rem; }
   .hero-links a{
@@ -169,7 +169,7 @@
   .hero-links a:hover{ color:var(--brass-deep); border-color:var(--brass); }
 
   /* ===== dossier photo ===== */
-  .dossier-wrap{ display:flex; align-items:center; gap:1.15rem; margin-bottom:1.7rem; }
+  .dossier-wrap{ display:flex; align-items:flex-start; gap:1.15rem; margin-bottom:2rem; }
   .dossier-photo{
     position:relative; flex-shrink:0; width:160px; height:160px; border-radius:50%;
     box-shadow:0 14px 26px rgba(16,35,58,0.22), 0 0 0 1px var(--line);
@@ -371,7 +371,7 @@
 <div class="reg-mark reg-tl pop-in d1"></div><div class="reg-mark reg-tr pop-in d1"></div>
 <div class="reg-mark reg-bl pop-in d1"></div><div class="reg-mark reg-br pop-in d1"></div>
 
-<header class="pop-in d1">
+<header>
   <nav>
     <a href="#hero" class="brand"><span class="dot"></span>M · M · R</a>
     <div class="status-tag"><span class="pulse"></span>CASE FILE — OPEN</div>
@@ -407,7 +407,7 @@
       </div>
       <span class="eyebrow pop-in d2">Cybersecurity &amp; Software Engineering</span>
       <h1><span class="pop-in d3">Mansouri Mouhamed</span><span class="pop-in d4">Rayen</span></h1>
-      <p class="hero-sub pop-in d5">First-year Computer Science Engineering student at Esprit. Hands-on with web exploitation, digital forensics, and binary exploitation — learning how systems are supposed to work by studying how they fail.</p>
+      <p class="hero-sub pop-in d5">First-year Computer Science Engineering student at Esprit. Aspiring software engineer with a hands-on focus on offensive security.</p>
       <span class="hero-now pop-in d6">Currently sharpening: memory forensics &amp; binary analysis fundamentals</span>
       <div class="hero-links pop-in d7">
         <a href="https://github.com" target="_blank" rel="noopener">GitHub ↗</a>
