@@ -282,7 +282,7 @@
         }
 
         .archive-card {
-            margin-bottom: 0;
+            margin-bottom: 1.2rem;
             background: var(--paper);
             border: 1px solid var(--line);
             transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease), opacity 0.6s var(--ease), transform 0.6s var(--ease);
@@ -785,9 +785,10 @@
             }
             function measureCardSpans() {
                 const rowUnit = 8;
+                const rowGapPx = 20;
                 cardsContainer.querySelectorAll('.archive-card').forEach(card => {
                     const height = card.scrollHeight;
-                    const rowSpan = Math.max(8, Math.ceil(height / rowUnit));
+                    const rowSpan = Math.max(8, Math.ceil((height + rowGapPx) / rowUnit));
                     card.style.gridRowEnd = 'span ' + rowSpan;
                 });
             }
