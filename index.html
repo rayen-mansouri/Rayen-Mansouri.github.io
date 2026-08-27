@@ -247,12 +247,18 @@
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.8rem;
+            grid-auto-rows: 8px;
+            grid-row-gap: 0;
+            grid-column-gap: 1.8rem;
+            grid-auto-flow: row dense;
         }
         .cards-grid.positioned {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.8rem;
+            grid-auto-rows: 8px;
+            grid-row-gap: 0;
+            grid-column-gap: 1.8rem;
+            grid-auto-flow: row dense;
         }
         @media (max-width: 860px) {
             .cards-grid {
@@ -260,10 +266,6 @@
             }
             .cards-grid.positioned {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            .cards-grid.positioned .archive-card {
-                grid-row: auto !important;
-                grid-column: auto !important;
             }
         }
         @media (max-width: 600px) {
@@ -273,16 +275,10 @@
             .cards-grid.positioned {
                 grid-template-columns: repeat(1, 1fr);
             }
-            .cards-grid.positioned .archive-card {
-                grid-row: auto !important;
-                grid-column: auto !important;
-            }
         }
 
         .grid-slot-empty {
-            /* reserved blank cell in "all" view to preserve alignment */
-            grid-row: var(--slot-row);
-            grid-column: var(--slot-col);
+            display: none;
         }
 
         .archive-card {
@@ -775,45 +771,76 @@
                 layout.sort((a, b) => a.slot - b.slot);
                 return layout;
             }
+            function getColumnCount() {
+                const w = window.innerWidth;
+                if (w <= 600) return 1;
+                if (w <= 860) return 2;
+                return 3;
+            }
+            function getColumnForSlot(slot, colCount) {
+                return ((slot - 1) % colCount) + 1;
+            }
+            function getRowForSlot(slot, colCount) {
+                return Math.ceil(slot / colCount);
+            }
+            function measureCardSpans() {
+                const rowUnit = 8;
+                const rowGapPx = 0;
+                cardsContainer.querySelectorAll('.archive-card').forEach(card => {
+                    const height = card.getBoundingClientRect().height;
+                    const rowSpan = Math.ceil((height + rowGapPx) / rowUnit);
+                    card.style.gridRowEnd = 'span ' + rowSpan;
+                });
+            }
+            function attachImageRecompute(cardEl) {
+                cardEl.querySelectorAll('img').forEach(img => {
+                    if (img.complete) return;
+                    img.addEventListener('load', () => measureCardSpans());
+                    img.addEventListener('error', () => measureCardSpans());
+                });
+            }
             function renderCards(filter='all') {
                 cardsContainer.innerHTML = '';
                 const layout = computeCardLayout();
+                const colCount = getColumnCount();
 
                 if (filter === 'all') {
-                    // Honor explicit 3-column slot positions on desktop.
-                    // Leave blank grid cells where slots are skipped.
                     cardsContainer.classList.add('positioned');
-                    const maxSlot = layout.length > 0 ? Math.max(...layout.map(l => l.slot)) : 0;
-                    for (let slot = 1; slot <= maxSlot; slot++) {
-                        const entry = layout.find(l => l.slot === slot);
-                        if (entry) {
-                            const row = Math.ceil(entry.slot / 3);
-                            const col = ((entry.slot - 1) % 3) + 1;
-                            const el = createCardElement(entry.card);
-                            el.style.gridRow = row;
-                            el.style.gridColumn = col;
-                            cardsContainer.appendChild(el);
-                        } else {
-                            const empty = document.createElement('div');
-                            empty.className = 'grid-slot-empty';
-                            empty.style.setProperty('--slot-row', Math.ceil(slot / 3));
-                            empty.style.setProperty('--slot-col', ((slot - 1) % 3) + 1);
-                            cardsContainer.appendChild(empty);
-                        }
-                    }
+                    // Sort by column then computed row for DOM order,
+                    // so dense masonry packs left-to-right, top-to-bottom.
+                    const sorted = [...layout].sort((a, b) => {
+                        const colA = getColumnForSlot(a.slot, colCount);
+                        const colB = getColumnForSlot(b.slot, colCount);
+                        if (colA !== colB) return colA - colB;
+                        return getRowForSlot(a.slot, colCount) - getRowForSlot(b.slot, colCount);
+                    });
+                    sorted.forEach(entry => {
+                        const el = createCardElement(entry.card);
+                        el.style.gridColumn = getColumnForSlot(entry.slot, colCount);
+                        cardsContainer.appendChild(el);
+                        attachImageRecompute(el);
+                    });
                 } else {
-                    // Filtered view: dense grid, no gaps.
-                    // Sort matching cards by their computed 3-column slot order.
                     cardsContainer.classList.remove('positioned');
                     const filtered = layout
                         .filter(l => l.card.type === filter)
-                        .sort((a, b) => a.slot - b.slot);
+                        .sort((a, b) => {
+                            const colA = getColumnForSlot(a.slot, colCount);
+                            const colB = getColumnForSlot(b.slot, colCount);
+                            if (colA !== colB) return colA - colB;
+                            return getRowForSlot(a.slot, colCount) - getRowForSlot(b.slot, colCount);
+                        });
                     filtered.forEach(entry => {
-                        cardsContainer.appendChild(createCardElement(entry.card));
+                        const el = createCardElement(entry.card);
+                        el.style.gridColumn = getColumnForSlot(entry.slot, colCount);
+                        el.style.gridRowEnd = '';
+                        cardsContainer.appendChild(el);
+                        attachImageRecompute(el);
                     });
                 }
 
                 document.querySelectorAll('.archive-card').forEach(card => slideUpObserver.observe(card));
+                requestAnimationFrame(() => measureCardSpans());
             }
             function openDetail(card) {
                 document.getElementById('detailContent').innerHTML = `<h2>${card.detailTitle}</h2><div class="detail-meta">${card.detailMeta}</div><p>${card.detailDesc}</p>`;
@@ -824,6 +851,14 @@
                     document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('is-active'));
                     this.classList.add('is-active');
                     renderCards(this.dataset.filter);
+                });
+            });
+            let resizeRaf = null;
+            window.addEventListener('resize', () => {
+                if (resizeRaf) return;
+                resizeRaf = requestAnimationFrame(() => {
+                    resizeRaf = null;
+                    measureCardSpans();
                 });
             });
             document.getElementById('closeDetail').addEventListener('click', ()=> document.getElementById('detailOverlay').classList.remove('open'));

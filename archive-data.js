@@ -9,8 +9,8 @@ const cardsData = [
         detailTitle: 'CJWPT',
         detailMeta: 'Hack & Fix Academy — 2026',
         detailDesc: 'Covered OWASP Top 10, manual testing and practical assessment.',
-        id: '1',
-        pos: 1
+        id: '5',
+        pos: 5
     },
     {
         type: 'cert',
@@ -22,8 +22,8 @@ const cardsData = [
         detailTitle: 'CTDA',
         detailMeta: 'Hack & Fix Academy — 2026',
         detailDesc: 'Covered ELK Stack and SIEM fundamentals. Hands-on experience with threat detection, log analysis, and incident response.',
-        id: '3',
-        pos: 3
+        id: '1',
+        pos: 1
     },
     {
         type: 'project',
@@ -48,8 +48,8 @@ const cardsData = [
         detailTitle: 'Packet_Analyzer',
         detailMeta: '',
         detailDesc: 'Parses PCAP files without high‑level libraries. Including graphical interface showcase and reactive attacks flagger. Check it on https://github.com/rayen-mansouri/-Packet_Analyzer',
-        id: '5',
-        pos: 5
+        id: '6',
+        pos: 6
     },
     {
         type: 'project',
@@ -74,7 +74,7 @@ const cardsData = [
         detailTitle: 'CyberSphere Congress 2026',
         detailMeta: '18/04/2026',
         detailDesc: "Our team managed to place first ,even though it was on the beginner's track it gained as an outstading experience and a persisting network",
-        id: '6',
-        pos: 6
+        id: '3',
+        pos: 3
     }
 ];
