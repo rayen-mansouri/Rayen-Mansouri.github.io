@@ -785,18 +785,20 @@
             }
             function measureCardSpans() {
                 const rowUnit = 8;
-                const rowGapPx = 0;
                 cardsContainer.querySelectorAll('.archive-card').forEach(card => {
-                    const height = card.getBoundingClientRect().height;
-                    const rowSpan = Math.max(1, Math.ceil((height + rowGapPx) / rowUnit));
+                    const height = card.scrollHeight;
+                    const rowSpan = Math.max(8, Math.ceil(height / rowUnit));
                     card.style.gridRowEnd = 'span ' + rowSpan;
                 });
             }
             function attachImageRecompute(cardEl) {
-                cardEl.querySelectorAll('img').forEach(img => {
-                    if (img.complete) return;
-                    img.addEventListener('load', () => measureCardSpans());
-                    img.addEventListener('error', () => measureCardSpans());
+                const imgs = cardEl.querySelectorAll('img');
+                let pending = imgs.length;
+                const done = () => requestAnimationFrame(() => measureCardSpans());
+                if (pending === 0) { done(); return; }
+                imgs.forEach(img => {
+                    if (img.complete) { pending--; if (pending <= 0) done(); }
+                    else { img.addEventListener('load', () => { pending--; if (pending <= 0) done(); }, { once: true }); img.addEventListener('error', () => { pending--; if (pending <= 0) done(); }, { once: true }); }
                 });
             }
             function renderCards(filter='all') {
@@ -840,7 +842,8 @@
                 }
 
                 document.querySelectorAll('.archive-card').forEach(card => slideUpObserver.observe(card));
-                requestAnimationFrame(() => measureCardSpans());
+                setTimeout(() => measureCardSpans(), 50);
+                setTimeout(() => measureCardSpans(), 350);
             }
             function openDetail(card) {
                 document.getElementById('detailContent').innerHTML = `<h2>${card.detailTitle}</h2><div class="detail-meta">${card.detailMeta}</div><p>${card.detailDesc}</p>`;
@@ -861,6 +864,7 @@
                     measureCardSpans();
                 });
             });
+            window.addEventListener('load', () => measureCardSpans());
             document.getElementById('closeDetail').addEventListener('click', ()=> document.getElementById('detailOverlay').classList.remove('open'));
             document.getElementById('detailOverlay').addEventListener('click', e=> { if(e.target===document.getElementById('detailOverlay')) e.target.classList.remove('open'); });
             document.addEventListener('keydown', e=> { if(e.key==='Escape') document.getElementById('detailOverlay').classList.remove('open'); });
