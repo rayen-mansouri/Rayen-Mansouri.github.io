@@ -19,7 +19,8 @@ const cardsData = [
         img: 'd8caa1d1-0fb8-4eed-913a-15573c95fadb-1.png',
         detailTitle: 'CTDA',
         detailMeta: 'Hack & Fix Academy — 2026',
-        detailDesc: 'Covered ELK Stack and SIEM fundamentals. Hands-on experience with threat detection, log analysis, and incident response.'
+        detailDesc: 'Covered ELK Stack and SIEM fundamentals. Hands-on experience with threat detection, log analysis, and incident response.',
+        pos: 3
     },
     {
         type: 'project',
@@ -41,7 +42,8 @@ const cardsData = [
         img: '1776037503717.jpeg',
         detailTitle: 'Packet_Analyzer',
         detailMeta: '',
-        detailDesc: 'Parses PCAP files without high‑level libraries. Including graphical interface showcase and reactive attacks flagger. Check it on https://github.com/rayen-mansouri/-Packet_Analyzer'
+        detailDesc: 'Parses PCAP files without high‑level libraries. Including graphical interface showcase and reactive attacks flagger. Check it on https://github.com/rayen-mansouri/-Packet_Analyzer',
+        pos: 5
     },
     {
         type: 'project',
