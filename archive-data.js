@@ -9,6 +9,7 @@ const cardsData = [
         detailTitle: 'CJWPT',
         detailMeta: 'Hack & Fix Academy — 2026',
         detailDesc: 'Covered OWASP Top 10, manual testing and practical assessment.',
+        id: '1',
         pos: 1
     },
     {
@@ -21,6 +22,7 @@ const cardsData = [
         detailTitle: 'CTDA',
         detailMeta: 'Hack & Fix Academy — 2026',
         detailDesc: 'Covered ELK Stack and SIEM fundamentals. Hands-on experience with threat detection, log analysis, and incident response.',
+        id: '3',
         pos: 3
     },
     {
@@ -33,6 +35,7 @@ const cardsData = [
         detailTitle: 'HexGuard',
         detailMeta: 'Status: In Progress',
         detailDesc: 'Over the course of my summer internship, I designed and implemented an AI-powered IDS that combines ML-based anomaly detection with rule-based threat hunting. For full documentation : <a href="HexGuard.pdf" download>HexGuard.pdf</a> | <a href="https://github.com/rayen-mansouri/Hexguard.git" target="_blank">GitHub</a>',
+        id: '2',
         pos: 2
     },
     {
@@ -45,6 +48,7 @@ const cardsData = [
         detailTitle: 'Packet_Analyzer',
         detailMeta: '',
         detailDesc: 'Parses PCAP files without high‑level libraries. Including graphical interface showcase and reactive attacks flagger. Check it on https://github.com/rayen-mansouri/-Packet_Analyzer',
+        id: '5',
         pos: 5
     },
     {
@@ -57,6 +61,7 @@ const cardsData = [
         detailTitle: 'Beneath',
         detailMeta: '',
         detailDesc: "Once you run a command through Beneath, you'll get a detailed breakdown including security alerts for privilege escalation, credential access, persistence mechanisms, and network activity, along with a Compare Mode to diff the behavior of two commands side by side and HTML export for reporting. It's especially useful for auditing unknown scripts before running them, solving CTF pwn/binary challenges, and analyzing malware behavior. Learn more and try it here: https://github.com/rayen-mansouri/Beneath",
+        id: '4',
         pos: 4
     },
     {
@@ -69,6 +74,7 @@ const cardsData = [
         detailTitle: 'CyberSphere Congress 2026',
         detailMeta: '18/04/2026',
         detailDesc: "Our team managed to place first ,even though it was on the beginner's track it gained as an outstading experience and a persisting network",
+        id: '6',
         pos: 6
     }
 ];
