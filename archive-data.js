@@ -11,6 +11,17 @@ const cardsData = [
         detailDesc: 'Covered OWASP Top 10, manual testing and practical assessment.'
     },
     {
+        type: 'cert',
+        icon: 'CERT',
+        title: 'CTDA',
+        tag: 'Forensics, Threat Hunting',
+        desc: 'Certified Threat Detection Analyst — Hack & Fix Academy.',
+        img: 'd8caa1d1-0fb8-4eed-913a-15573c95fadb-1.png',
+        detailTitle: 'CTDA',
+        detailMeta: 'Hack & Fix Academy — 2026',
+        detailDesc: 'Covered ELK Stack and SIEM fundamentals. Hands-on experience with threat detection, log analysis, and incident response.'
+    },
+    {
         type: 'project',
         icon: 'PROJECT',
         title: 'HexGuard',
