@@ -23,7 +23,7 @@ const cardsData = [
         detailMeta: 'Hack & Fix Academy — 2026',
         detailDesc: 'Covered ELK Stack and SIEM fundamentals. Hands-on experience with threat detection, log analysis, and incident response.',
         id: '1',
-        pos: 1
+        pos: 2
     },
     {
         type: 'project',
@@ -36,7 +36,7 @@ const cardsData = [
         detailMeta: 'Status: In Progress',
         detailDesc: 'Over the course of my summer internship, I designed and implemented an AI-powered IDS that combines ML-based anomaly detection with rule-based threat hunting. For full documentation : <a href="HexGuard.pdf" download>HexGuard.pdf</a> | <a href="https://github.com/rayen-mansouri/Hexguard.git" target="_blank">GitHub</a>',
         id: '2',
-        pos: 2
+        pos: 4
     },
     {
         type: 'project',
@@ -75,7 +75,7 @@ const cardsData = [
         detailMeta: 'Red Team Leaders — 2026',
         detailDesc: 'Covered LLM security fundamentals, prompt injection, and adversarial attacks. Hands-on experience with LLM security assessment and mitigation strategies.',
         id: '7',
-        pos: 7
+        pos: 1
     },
     {
         type: 'participation',
