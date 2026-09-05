@@ -65,6 +65,19 @@ const cardsData = [
         pos: 4
     },
     {
+        type: 'cert',
+        icon: 'CERT',
+        title: 'CLLMSE',
+        tag: 'AI Redteaming',
+        desc: 'Certified Lead LLM Security Engineer - Red Team Leaders',
+        img: 'certified_llm_certificate-1.png',
+        detailTitle: 'CLLMSE',
+        detailMeta: 'Red Team Leaders — 2026',
+        detailDesc: 'Covered LLM security fundamentals, prompt injection, and adversarial attacks. Hands-on experience with LLM security assessment and mitigation strategies.',
+        id: '7',
+        pos: 7
+    },
+    {
         type: 'participation',
         icon: 'PARTICIPATION',
         title: '1st place @ CyberSphere Congress 2026',
