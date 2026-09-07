@@ -69,7 +69,7 @@ const cardsData = [
         icon: 'CERT',
         title: 'CLLMSE',
         tag: 'AI Redteaming',
-        desc: 'Certified Lead LLM Security Engineer - Red Team Leaders',
+        desc: 'Certified Lead LLM Security Expert - Red Team Leaders',
         img: 'certified_llm_certificate-1.png',
         detailTitle: 'CLLMSE',
         detailMeta: 'Red Team Leaders — 2026',
