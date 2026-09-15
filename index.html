@@ -238,6 +238,19 @@
         .writeup-body { font-size: 1.05rem; line-height: 1.8; color: var(--ink); }
         .writeup-body p { margin-bottom: 1rem; }
         .writeup-body code { background: var(--paper-2); padding: 0.15rem 0.4rem; border-radius: 4px; font-family: var(--mono); font-size: 0.85rem; }
+        .writeup-code-block { position: relative; margin: 1.25rem 0; border: 1px solid #34405a; border-radius: 6px; overflow: hidden; background: #101522; }
+        .writeup-code-label { display: block; padding: 0.35rem 0.75rem; background: #1b2334; color: #b9c4d6; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; }
+        .writeup-code-block pre { margin: 0.5rem; }
+        .writeup-code-block pre code { display: block; padding: 1rem; overflow-x: auto; background: #101522; font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; color: #d9e1ec; }
+        .wu-parent-btn { display: block; width: 100%; padding: 0.75rem 1.2rem; border: 0; border-radius: 4px; background: transparent; color: var(--slate); font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.03em; text-align: left; cursor: pointer; transition: all 0.2s var(--ease); }
+        .wu-parent-btn:hover, .wu-parent-btn:focus-visible { background: rgba(193,127,62,0.06); color: var(--ink); outline: none; }
+        .wu-parent-btn.is-active { background: rgba(193,127,62,0.1); color: var(--ink); font-weight: 500; }
+        .wu-parent-btn .wu-chevron { display: inline-block; width: 0.8rem; margin-right: 0.5rem; color: currentColor; transition: transform 0.2s var(--ease); }
+        .wu-parent-btn.is-expanded .wu-chevron { transform: rotate(90deg); }
+        .wu-children { margin: 0; padding: 0 0 0 2.1rem; list-style: none; border-left: 1px solid var(--line); }
+        .wu-children .writeup-link { display: block; padding: 0.35rem 0.75rem; border-left: 2px solid var(--line); font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.02em; color: var(--slate); text-decoration: none; }
+        .wu-children .writeup-link:hover { color: var(--ink); background: rgba(193,127,62,0.06); }
+        .wu-children .writeup-link.is-active { color: var(--ink); background: rgba(193,127,62,0.1); font-weight: 500; }
 
         .cards-filter { display: flex; gap: 0.5rem; margin-bottom: 1.8rem; flex-wrap: wrap; }
         .filter-pill { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--slate); cursor: pointer; transition: all 0.3s var(--ease); text-transform: uppercase; min-height: 44px; }
@@ -665,34 +678,145 @@
             const writeupContent = document.getElementById('writeupContent');
             const searchInput = document.getElementById('writeupSearch');
             const sortSelect = document.getElementById('writeupSort');
+            const expandedParents = new Set();
+
+            function styleCodeBlocks(container) {
+                const blocks = container.querySelectorAll('.writeup-body pre');
+                blocks.forEach(pre => {
+                    if (pre.parentElement.classList.contains('writeup-code-block')) return;
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'writeup-code-block';
+                    const label = document.createElement('span');
+                    label.className = 'writeup-code-label';
+                    label.textContent = 'Command';
+                    pre.parentNode.insertBefore(wrapper, pre);
+                    wrapper.appendChild(label);
+                    wrapper.appendChild(pre);
+                });
+            }
+
+            function selectWriteup(id) {
+                const entry = writeupsData.find(wu => wu.id === id);
+                if (!entry) return;
+
+                document.querySelectorAll('.writeup-link').forEach(link => link.classList.remove('is-active'));
+                document.querySelectorAll('.writeup-detail').forEach(detail => detail.classList.remove('active'));
+
+                const targetLink = document.querySelector('.writeup-link[data-id="' + id + '"]');
+                if (targetLink) targetLink.classList.add('is-active');
+
+                const detail = document.getElementById(id);
+                if (!detail) return;
+
+                detail.classList.add('active');
+                writeupContent.scrollTop = 0;
+                const header = document.querySelector('header');
+                const headerHeight = header ? header.offsetHeight : 0;
+                const rect = detail.getBoundingClientRect();
+                const scrollTop = window.pageYOffset + rect.top - headerHeight;
+                window.scrollTo({ top: scrollTop, behavior: reduceMotion ? 'auto' : 'smooth' });
+            }
 
             function renderWriteups(filteredData) {
-                sidebarList.innerHTML = ''; writeupContent.innerHTML = '';
-                filteredData.forEach((wu, idx) => {
+                const renderedIds = new Set();
+                const visibleData = filteredData.filter(wu => !wu.parentId);
+                sidebarList.innerHTML = '';
+                writeupContent.innerHTML = '';
+
+                visibleData.forEach((wu, idx) => {
                     const li = document.createElement('li');
-                    const a = document.createElement('a'); a.href='#'; a.className='writeup-link'; a.dataset.id=wu.id; a.textContent=wu.title;
-                    if(idx===0) a.classList.add('is-active'); li.appendChild(a); sidebarList.appendChild(li);
-                    const div = document.createElement('div'); div.className='writeup-detail'; div.id=wu.id;
-                    if(idx===0) div.classList.add('active');
+                    const isParent = Array.isArray(wu.children) && wu.children.length > 0;
+
+                    if (isParent) {
+                        const button = document.createElement('button');
+                        button.type = 'button';
+                        button.className = 'wu-parent-btn writeup-link';
+                        button.dataset.id = wu.id;
+                        button.setAttribute('aria-expanded', String(expandedParents.has(wu.id)));
+                        button.innerHTML = '<span class="wu-chevron">›</span><span></span>';
+                        button.lastElementChild.textContent = wu.title;
+
+                        if (idx === 0) button.classList.add('is-active');
+                        if (expandedParents.has(wu.id)) button.classList.add('is-expanded');
+                        li.appendChild(button);
+
+                        const childrenList = document.createElement('ul');
+                        childrenList.className = 'wu-children';
+                        childrenList.hidden = !expandedParents.has(wu.id);
+                        wu.children.forEach(childId => {
+                            const child = writeupsData.find(item => item.id === childId && item.parentId === wu.id);
+                            if (!child) return;
+                            const childLi = document.createElement('li');
+                            const childLink = document.createElement('a');
+                            childLink.href = '#w/' + child.id;
+                            childLink.className = 'writeup-link';
+                            childLink.dataset.id = child.id;
+                            childLink.textContent = child.title;
+                            if (idx === 0 && !expandedParents.has(wu.id)) childLink.classList.add('is-active');
+                            childLi.appendChild(childLink);
+                            childrenList.appendChild(childLi);
+                        });
+                        li.appendChild(childrenList);
+                    } else {
+                        const link = document.createElement('a');
+                        link.href = '#w/' + wu.id;
+                        link.className = 'writeup-link';
+                        link.dataset.id = wu.id;
+                        link.textContent = wu.title;
+                        if (idx === 0) link.classList.add('is-active');
+                        li.appendChild(link);
+                    }
+                    sidebarList.appendChild(li);
+
+                    const div = document.createElement('div');
+                    div.className = 'writeup-detail';
+                    div.id = wu.id;
+                    if (idx === 0) div.classList.add('active');
                     div.innerHTML = `<h2>${wu.title}</h2><div class="writeup-meta"><span>📅 ${wu.date}</span><span>🏷️ ${wu.category}</span><span>⚡ ${wu.difficulty}</span><span>${wu.status}</span></div><div class="writeup-body">${wu.body}</div>`;
+                    styleCodeBlocks(div);
+                    writeupContent.appendChild(div);
+                    renderedIds.add(wu.id);
+                });
+
+                filteredData.forEach(wu => {
+                    if (!wu.parentId || renderedIds.has(wu.id)) return;
+                    const div = document.createElement('div');
+                    div.className = 'writeup-detail';
+                    div.id = wu.id;
+                    div.innerHTML = `<h2>${wu.title}</h2><div class="writeup-meta"><span>📅 ${wu.date}</span><span>🏷️ ${wu.category}</span><span>⚡ ${wu.difficulty}</span><span>${wu.status}</span></div><div class="writeup-body">${wu.body}</div>`;
+                    styleCodeBlocks(div);
                     writeupContent.appendChild(div);
                 });
-                document.querySelectorAll('.writeup-link').forEach(link => {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        document.querySelectorAll('.writeup-link').forEach(l => l.classList.remove('is-active'));
-                        this.classList.add('is-active');
-                        document.querySelectorAll('.writeup-detail').forEach(d => d.classList.remove('active'));
-                        const detail = document.getElementById(this.dataset.id);
-                        detail.classList.add('active');
+
+                document.querySelectorAll('.wu-parent-btn').forEach(button => {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        const id = this.dataset.id;
+                        if (expandedParents.has(id)) {
+                            expandedParents.delete(id);
+                        } else {
+                            expandedParents.add(id);
+                        }
+                        renderWriteups([...filteredData]);
+                    });
+                });
+
+                document.querySelectorAll('.wu-children .writeup-link').forEach(link => {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        event.stopPropagation();
                         history.replaceState(null, '', '#w/' + this.dataset.id);
-                        const writeupContent = document.getElementById('writeupContent');
-                        if (writeupContent) writeupContent.scrollTop = 0;
-                        const header = document.querySelector('header');
-                        const headerHeight = header ? header.offsetHeight : 0;
-                        const rect = detail.getBoundingClientRect();
-                        const scrollTop = window.pageYOffset + rect.top - headerHeight;
-                        window.scrollTo({ top: scrollTop, behavior: reduceMotion ? 'auto' : 'smooth' });
+                        selectWriteup(this.dataset.id);
+                    });
+                });
+
+                document.querySelectorAll('.notion-sidebar > ul > li > a.writeup-link').forEach(link => {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        history.replaceState(null, '', '#w/' + this.dataset.id);
+                        selectWriteup(this.dataset.id);
                     });
                 });
             }
@@ -700,12 +824,26 @@
             function filterAndSort() {
                 let filtered = [...writeupsData];
                 const term = searchInput.value.toLowerCase();
-                if(term) filtered = filtered.filter(w => w.title.toLowerCase().includes(term) || w.category.toLowerCase().includes(term));
+                if (term) {
+                    filtered = filtered.filter(wu => {
+                        if (!wu.parentId) {
+                            const children = (wu.children || []).map(id => writeupsData.find(child => child.id === id)).filter(Boolean);
+                            const parentMatches = wu.title.toLowerCase().includes(term) || wu.category.toLowerCase().includes(term) || (wu.tags || []).some(tag => tag.toLowerCase().includes(term));
+                            const childMatches = children.some(child => child.title.toLowerCase().includes(term) || child.category.toLowerCase().includes(term) || (child.tags || []).some(tag => tag.toLowerCase().includes(term)));
+                            if (parentMatches || childMatches) {
+                                return true;
+                            }
+                            return false;
+                        }
+                        const parent = writeupsData.find(item => item.id === wu.parentId);
+                        return parent && filtered.includes(parent);
+                    });
+                }
                 const sort = sortSelect.value;
-                if(sort==='newest') filtered.sort((a,b)=>new Date(b.date)-new Date(a.date));
-                else if(sort==='oldest') filtered.sort((a,b)=>new Date(a.date)-new Date(b.date));
-                else if(sort==='az') filtered.sort((a,b)=>a.title.localeCompare(b.title));
-                else if(sort==='za') filtered.sort((a,b)=>b.title.localeCompare(a.title));
+                if (sort === 'newest') filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+                else if (sort === 'oldest') filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+                else if (sort === 'az') filtered.sort((a, b) => a.title.localeCompare(b.title));
+                else if (sort === 'za') filtered.sort((a, b) => b.title.localeCompare(a.title));
                 renderWriteups(filtered);
             }
             searchInput.addEventListener('input', filterAndSort);
@@ -930,42 +1068,48 @@
 
             function switchTab(showPanel, hidePanel, activeTab, inactiveTab) {
                 if(showPanel.style.display==='block') return;
-                hidePanel.classList.add('fade-out');
-                setTimeout(()=> {
-                    hidePanel.style.display='none'; hidePanel.classList.remove('fade-out');
-                    showPanel.style.display='block'; showPanel.classList.remove('fade-out');
-                    showPanel.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
-                }, 200);
+                hidePanel.style.display='none';
+                showPanel.style.display='block';
+                showPanel.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
                 activeTab.classList.add('is-active'); inactiveTab.classList.remove('is-active');
             }
             tabWriteups.addEventListener('click', ()=> switchTab(panelWriteups, panelCerts, tabWriteups, tabCerts));
             tabCerts.addEventListener('click', ()=> switchTab(panelCerts, panelWriteups, tabCerts, tabWriteups));
 
-            const hash = location.hash;
-            if (hash.startsWith('#w/')) {
-                const id = hash.slice(3);
-                if (writeupsData.some(w => w.id === id)) {
-                    switchTab(panelWriteups, panelCerts, tabWriteups, tabCerts);
+            function openWriteupHash() {
+                if (!location.hash.startsWith('#w/')) return;
+                const id = location.hash.slice(3);
+                const target = writeupsData.find(wu => wu.id === id);
+                if (!target) return;
+                if (target.parentId) expandedParents.add(target.parentId);
+                renderWriteups(writeupsData);
+                panelCerts.style.display = 'none';
+                panelWriteups.style.display = 'block';
+                panelWriteups.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+                tabWriteups.classList.add('is-active');
+                tabCerts.classList.remove('is-active');
+                requestAnimationFrame(() => {
                     const targetLink = document.querySelector('.writeup-link[data-id="' + id + '"]');
                     const targetDetail = document.getElementById(id);
-                    if (targetLink && targetDetail) {
-                        document.querySelectorAll('.writeup-link').forEach(l => l.classList.remove('is-active'));
+                    if (targetLink) {
+                        document.querySelectorAll('.writeup-link').forEach(link => link.classList.remove('is-active'));
                         targetLink.classList.add('is-active');
-                        document.querySelectorAll('.writeup-detail').forEach(d => d.classList.remove('active'));
-                        targetDetail.classList.add('active');
-                        panelWriteups.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
-                        const writeupContent = document.getElementById('writeupContent');
-                        if (writeupContent) writeupContent.scrollTop = 0;
-                        setTimeout(() => {
-                            const header = document.querySelector('header');
-                            const headerHeight = header ? header.offsetHeight : 0;
-                            const rect = targetDetail.getBoundingClientRect();
-                            const scrollTop = window.pageYOffset + rect.top - headerHeight;
-                            window.scrollTo({ top: scrollTop, behavior: reduceMotion ? 'auto' : 'smooth' });
-                        }, 400);
                     }
-                }
+                    if (!targetDetail) return;
+                    document.querySelectorAll('.writeup-detail').forEach(detail => detail.classList.remove('active'));
+                    targetDetail.classList.add('active');
+                    panelWriteups.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+                    writeupContent.scrollTop = 0;
+                    const header = document.querySelector('header');
+                    const headerHeight = header ? header.offsetHeight : 0;
+                    const panelTop = panelWriteups.getBoundingClientRect().top + window.pageYOffset;
+                    const detailTop = targetDetail.getBoundingClientRect().top + window.pageYOffset;
+                    window.scrollTo({ top: Math.max(panelTop, detailTop - headerHeight), behavior: reduceMotion ? 'auto' : 'smooth' });
+                });
             }
+
+            window.addEventListener('hashchange', openWriteupHash);
+            openWriteupHash();
 
             const footMeta = document.querySelector('.foot-meta');
             if(footMeta) {
