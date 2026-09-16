@@ -1032,6 +1032,7 @@
                 });
 
                 cardsData.forEach(c => {
+                    if (c.pos != null) return;
                     items.push({
                         type: c.type,
                         tag: c.tag || c.icon,

@@ -89,5 +89,18 @@ const cardsData = [
         detailDesc: "Our team managed to place first ,even though it was on the beginner's track it gained as an outstading experience and a persisting network",
         id: '3',
         pos: 3
+    },
+    {
+        type: 'Project',
+        icon: 'PROJECT',
+        title: 'full chain IT to OT intrusion into a simulated water treatment facility',
+        tag: 'Homelab',
+        desc: "'This report documents the technical path, the trust relationships and misconfigurations that enabled each transition,Full walkthrough : https://rayen-mansouri.github.io/#w/w9-description'",
+        img: 'filled.png',
+        detailTitle: 'Target: Meridian Process Controls — a simulated water-treatment operator running a full Purdue-model industrial network.',
+        detailMeta: '16/09/2026',
+        detailDesc: "The engagement traced a full intrusion path — pivoting from a public-facing web server into the enterprise Active Directory domain, then onto an engineering workstation, and from there into the control network where the PLC operates a live water-tank process. Beyond reaching the PLC, a persistent backdoor was crafted inside the process itself, allowing sustained manipulation of the physical system rather than a one-shot write. Full walkthrough at : https://rayen-mansouri.github.io/#w/w9-description",
+        id: '8',
+        pos: 8
     }
 ];
