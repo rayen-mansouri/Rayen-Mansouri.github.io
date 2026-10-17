@@ -1,16 +1,16 @@
 const cardsData = [
     {
-        type: 'cert',
-        icon: 'CERT',
-        title: 'CJWPT',
-        tag: 'Web Pentesting',
-        desc: 'Certified Junior Web Penetration Tester — Hack & Fix Academy.',
-        img: 'eaf209d6-9494-4ca1-83ec-09ba332df5a5-1.png',
-        detailTitle: 'CJWPT',
-        detailMeta: 'Hack & Fix Academy — 2026',
-        detailDesc: 'Covered OWASP Top 10, manual testing and practical assessment.',
-        id: '5',
-        pos: 5
+        type: 'project',
+        icon: 'PROJECT',
+        title: 'CVE-2026-107254 — Critical: Improper Authentication',
+        tag: 'Vulnerability Research',
+        desc: 'Critical improper authentication vulnerability in a Drupal contributed module. More details: https://www.drupal.org/sa-contrib-2026-197',
+        img: 'cve1.png',
+        detailTitle: 'CVE-2026-107254 — Critical: Improper Authentication',
+        detailMeta: 'CVE',
+        detailDesc: 'Critical improper authentication vulnerability in a Drupal contributed module. Full advisory: <a href="https://www.drupal.org/sa-contrib-2026-197" target="_blank" rel="noopener">https://www.drupal.org/sa-contrib-2026-197</a>',
+        id: '9',
+        pos: 1
     },
     {
         type: 'cert',
@@ -26,58 +26,6 @@ const cardsData = [
         pos: 2
     },
     {
-        type: 'project',
-        icon: 'PROJECT',
-        title: 'HexGuard',
-        tag: 'AI / Security',
-        desc: 'A multi-source AI-powered network intrusion detection system (IDS)',
-        img: 'screenshot-20260809-152435.png',
-        detailTitle: 'HexGuard',
-        detailMeta: 'Status: In Progress',
-        detailDesc: 'Over the course of my summer internship, I designed and implemented an AI-powered IDS that combines ML-based anomaly detection with rule-based threat hunting. For full documentation : <a href="HexGuard.pdf" download>HexGuard.pdf</a> | <a href="https://github.com/rayen-mansouri/Hexguard.git" target="_blank">GitHub</a>',
-        id: '2',
-        pos: 4
-    },
-    {
-        type: 'project',
-        icon: 'PROJECT',
-        title: 'Packet_Analyzer',
-        tag: 'Network',
-        desc: 'Traffic inspection tool built from the wire up.',
-        img: '1776037503717.jpeg',
-        detailTitle: 'Packet_Analyzer',
-        detailMeta: '',
-        detailDesc: 'Parses PCAP files without high‑level libraries. Including graphical interface showcase and reactive attacks flagger. Check it on https://github.com/rayen-mansouri/-Packet_Analyzer',
-        id: '6',
-        pos: 6
-    },
-    {
-        type: 'project',
-        icon: 'PROJECT',
-        title: 'Beneath',
-        tag: 'Syscall Introspection',
-        desc: 'a linux CLI tool for syscalls introspection utility , turning basic "strace" command output into a more comprehensive visualisation.',
-        img: 'beneath.jpeg',
-        detailTitle: 'Beneath',
-        detailMeta: '',
-        detailDesc: "Once you run a command through Beneath, you'll get a detailed breakdown including security alerts for privilege escalation, credential access, persistence mechanisms, and network activity, along with a Compare Mode to diff the behavior of two commands side by side and HTML export for reporting. It's especially useful for auditing unknown scripts before running them, solving CTF pwn/binary challenges, and analyzing malware behavior. Learn more and try it here: https://github.com/rayen-mansouri/Beneath",
-        id: '4',
-        pos: 4
-    },
-    {
-        type: 'cert',
-        icon: 'CERT',
-        title: 'CLLMSE',
-        tag: 'AI Redteaming',
-        desc: 'Certified Lead LLM Security Expert - Red Team Leaders',
-        img: 'certified_llm_certificate-1.png',
-        detailTitle: 'CLLMSE',
-        detailMeta: 'Red Team Leaders — 2026',
-        detailDesc: 'Covered LLM security fundamentals, prompt injection, and adversarial attacks. Hands-on experience with LLM security assessment and mitigation strategies.',
-        id: '7',
-        pos: 1
-    },
-    {
         type: 'participation',
         icon: 'PARTICIPATION',
         title: '1st place @ CyberSphere Congress 2026',
@@ -91,7 +39,111 @@ const cardsData = [
         pos: 3
     },
     {
-        type: 'Project',
+        type: 'participation',
+        icon: 'PARTICIPATION',
+        title: 'Finals Qualification @Indaba 2026 edition',
+        tag: 'CTF',
+        desc: 'Qualified for the finals at Indaba 2026 edition — top 10 finalists out of 70.',
+        img: 'indaba.png',
+        detailTitle: 'Finals Qualification @Indaba 2026 edition',
+        detailMeta: 'Indaba 2026',
+        detailDesc: 'Qualified for the finals at Indaba 2026 edition, reaching the top 10 finalists out of 70 participants.',
+        id: '11',
+        pos: 4
+    },
+    {
+        type: 'participation',
+        icon: 'PARTICIPATION',
+        title: '1st place at the Securinets Friendly CTF — Advanced Track',
+        tag: 'CTF',
+        desc: 'Secured first place out of 400 teams in the advanced track.',
+        img: 'ctf.png',
+        detailTitle: '1st place at the Securinets Friendly CTF — Advanced Track',
+        detailMeta: 'Securinets',
+        detailDesc: 'Secured first place out of 400 teams in the advanced track.',
+        id: '12',
+        pos: 5
+    },
+    {
+        type: 'project',
+        icon: 'PROJECT',
+        title: 'HexGuard',
+        tag: 'AI / Security',
+        desc: 'A multi-source AI-powered network intrusion detection system (IDS).',
+        img: 'screenshot-20260809-152435.png',
+        detailTitle: 'HexGuard',
+        detailMeta: 'Status: In Progress',
+        detailDesc: 'Over the course of my summer internship, I designed and implemented an AI-powered IDS that combines ML-based anomaly detection with rule-based threat hunting. For full documentation : <a href="HexGuard.pdf" download>HexGuard.pdf</a> | <a href="https://github.com/rayen-mansouri/Hexguard.git" target="_blank">GitHub</a>',
+        id: '2',
+        pos: 6
+    },
+    {
+        type: 'cert',
+        icon: 'CERT',
+        title: 'CJWPT',
+        tag: 'Web Pentesting',
+        desc: 'Certified Junior Web Penetration Tester — Hack & Fix Academy.',
+        img: 'eaf209d6-9494-4ca1-83ec-09ba332df5a5-1.png',
+        detailTitle: 'CJWPT',
+        detailMeta: 'Hack & Fix Academy — 2026',
+        detailDesc: 'Covered OWASP Top 10, manual testing and practical assessment.',
+        id: '5',
+        pos: 7
+    },
+    {
+        type: 'project',
+        icon: 'PROJECT',
+        title: 'Packet_Analyzer',
+        tag: 'Network',
+        desc: 'Traffic inspection tool built from the wire up.',
+        img: '1776037503717.jpeg',
+        detailTitle: 'Packet_Analyzer',
+        detailMeta: '',
+        detailDesc: 'Parses PCAP files without high‑level libraries. Including graphical interface showcase and reactive attacks flagger. Check it on https://github.com/rayen-mansouri/-Packet_Analyzer',
+        id: '6',
+        pos: 8
+    },
+    {
+        type: 'project',
+        icon: 'PROJECT',
+        title: 'Beneath',
+        tag: 'Syscall Introspection',
+        desc: 'A Linux CLI tool for syscall introspection, turning basic "strace" output into a more comprehensive visualization.',
+        img: 'beneath.jpeg',
+        detailTitle: 'Beneath',
+        detailMeta: '',
+        detailDesc: "Once you run a command through Beneath, you'll get a detailed breakdown including security alerts for privilege escalation, credential access, persistence mechanisms, and network activity, along with a Compare Mode to diff the behavior of two commands side by side and HTML export for reporting. It's especially useful for auditing unknown scripts before running them, solving CTF pwn/binary challenges, and analyzing malware behavior. Learn more and try it here: https://github.com/rayen-mansouri/Beneath",
+        id: '4',
+        pos: 9
+    },
+    {
+        type: 'cert',
+        icon: 'CERT',
+        title: 'CLLMSE',
+        tag: 'AI Redteaming',
+        desc: 'Certified Lead LLM Security Expert - Red Team Leaders',
+        img: 'certified_llm_certificate-1.png',
+        detailTitle: 'CLLMSE',
+        detailMeta: 'Red Team Leaders — 2026',
+        detailDesc: 'Covered LLM security fundamentals, prompt injection, and adversarial attacks. Hands-on experience with LLM security assessment and mitigation strategies.',
+        id: '7',
+        pos: 10
+    },
+    {
+        type: 'project',
+        icon: 'PROJECT',
+        title: 'CVE-2026-107261 — Moderately Critical: Improper Authentication',
+        tag: 'Vulnerability Research',
+        desc: 'Moderately critical improper authentication vulnerability in a Drupal contributed module. More details: https://www.drupal.org/sa-contrib-2026-201',
+        img: 'cve2.png',
+        detailTitle: 'CVE-2026-107261 — Moderately Critical: Improper Authentication',
+        detailMeta: 'CVE',
+        detailDesc: 'Moderately critical improper authentication vulnerability in a Drupal contributed module. Full advisory: <a href="https://www.drupal.org/sa-contrib-2026-201" target="_blank" rel="noopener">https://www.drupal.org/sa-contrib-2026-201</a>',
+        id: '10',
+        pos: 11
+    },
+    {
+        type: 'project',
         icon: 'PROJECT',
         title: 'full chain IT to OT intrusion into a simulated water treatment facility',
         tag: 'Homelab',
@@ -101,6 +153,6 @@ const cardsData = [
         detailMeta: '16/09/2026',
         detailDesc: "The engagement traced a full intrusion path — pivoting from a public-facing web server into the enterprise Active Directory domain, then onto an engineering workstation, and from there into the control network where the PLC operates a live water-tank process. Beyond reaching the PLC, a persistent backdoor was crafted inside the process itself, allowing sustained manipulation of the physical system rather than a one-shot write. Full walkthrough at : https://rayen-mansouri.github.io/#w/w9-description",
         id: '8',
-        pos: 8
+        pos: 12
     }
 ];
