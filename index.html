@@ -844,6 +844,24 @@
             renderWriteups(writeupsData);
 
             /* cardsData is provided by archive-data.js */
+            const adRtsCard = cardsData.find(card => card.title === 'AD-RTS');
+            if (!adRtsCard) {
+                cardsData.push({
+                    type: 'cert',
+                    icon: 'CERT',
+                    title: 'AD-RTS',
+                    tag: 'Active Directory / Red Teaming',
+                    desc: 'certified active directory red team specialist',
+                    img: 'ad.png',
+                    detailTitle: 'AD-RTS',
+                    detailMeta: '2026',
+                    detailDesc: 'certified active directory red team specialist',
+                    id: '13',
+                    pos: 2
+                });
+            }
+            const ctdaCard = cardsData.find(card => card.title === 'CTDA');
+            if (ctdaCard) ctdaCard.pos = 13;
             const cardsContainer = document.getElementById('cardsContainer');
             function createCardElement(card) {
                 const el = document.createElement('div');
